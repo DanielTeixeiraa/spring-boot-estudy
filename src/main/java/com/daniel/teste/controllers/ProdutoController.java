@@ -19,50 +19,50 @@ import com.daniel.teste.services.ProdutoService;
 
 @RestController
 @RequestMapping("/produto")
-public class ProdutoController{
+public class ProdutoController {
 	private final ProdutoRepository produtoRepository;
 
-@Autowired
-private ProdutoService service;
+	@Autowired
+	private ProdutoService service;
 
-@Autowired
-public ProdutoController (ProdutoRepository produtoRepository) {
-	this.produtoRepository = produtoRepository;
-}
+	@Autowired
+	public ProdutoController(ProdutoRepository produtoRepository) {
+		this.produtoRepository = produtoRepository;
+	}
 
+	@GetMapping
+	public ResponseEntity<?> listarCategoria() {
+		return new ResponseEntity<>(produtoRepository.findAll(), HttpStatus.OK);
+	}
 
-@GetMapping
-public ResponseEntity<?> listarCategoria() {
-return new ResponseEntity<>(produtoRepository.findAll(),HttpStatus.OK);
-}
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<?> listaUma(@PathVariable("id") Integer id) {
+		verifyIfProdutoExists(id);
+		Produto obj = service.find(id);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
+	}
 
-@GetMapping(path = "/{id}")
-public ResponseEntity<?> listaUma(@PathVariable("id") Integer id) {
-	Produto obj = service.find(id);
-	if(obj == null)
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	return new ResponseEntity<>(obj,HttpStatus.OK);
-}
+	@PostMapping
+	public ResponseEntity<?> save(@RequestBody Produto produto) {
+		return new ResponseEntity<>(service.salvar(produto), HttpStatus.OK);
+	}
 
-@PostMapping
-public ResponseEntity<?> save(@RequestBody Produto produto) {
-	return new ResponseEntity<>(service.salvar(produto),HttpStatus.OK);
-}
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+		verifyIfProdutoExists(id);
+		service.find(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 
-@DeleteMapping(path="/{id}")
-public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-	service.find(id);
-	return new ResponseEntity<>(HttpStatus.OK);
-}
+	@PutMapping
+	public ResponseEntity<?> update(@RequestBody Produto produto) {
+		return new ResponseEntity<>(service.update(produto), HttpStatus.OK);
+	}
 
-@PutMapping
-public ResponseEntity<?> update(@RequestBody Produto produto) {
-	return new ResponseEntity<>(service.update(produto),HttpStatus.OK);
-}
-	
-private void verifyIfProdutoExists(Integer id) {
-	if(service.find(id) ==null) {
-		throw new ResourceNotFoundException("Caregoria nao econtrada");
-}}
+	private void verifyIfProdutoExists(Integer id) {
+		if (service.find(id) == null) {
+			throw new ResourceNotFoundException("Caregoria nao econtrada");
+		}
+	}
 
 }

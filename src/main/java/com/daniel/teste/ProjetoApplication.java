@@ -9,27 +9,43 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.daniel.teste.models.Categoria;
-import com.daniel.teste.models.Produto;
-import com.daniel.teste.repositories.CategoriaRepository;
-import com.daniel.teste.repositories.ProdutoRepository;
+import com.daniel.teste.models.Cidade;
+import com.daniel.teste.models.Estado;
+import com.daniel.teste.repositories.CidadeRepository;
+import com.daniel.teste.repositories.EstadoRepository;
 
 
 
 @SpringBootApplication
 public class ProjetoApplication implements CommandLineRunner {
 
+//	//@Autowired
+//	//private CategoriaRepository categoriaRepository;
+//	//@Autowired
+//	//private ProdutoRepository produtoRepository;
 	@Autowired
-	private CategoriaRepository categoriaRepository;
+	private CidadeRepository cidadeRepository;
 	@Autowired
-	private ProdutoRepository produtoRepository;
-	
+	private EstadoRepository estadoRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+		
+		Estado es1 = new Estado(null,"minas");
+		Estado es2 = new Estado(null,"Sp");
+		
+		Cidade c1 = new Cidade(null,"Uberlandia",es1);
+		Cidade c2 = new Cidade(null,"sao paulo",es2);
+		Cidade c3 = new Cidade(null,"campinas",es2);
+		
+		es1.getCidades().addAll(Arrays.asList(c2,c3));
+		es2.getCidades().addAll(Arrays.asList(c1));
+		
+		estadoRepository.saveAll(Arrays.asList(es1,es2));
+		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 		
 //		Categoria cat1 = new Categoria(null, "Informática");
 //		Categoria cat2 = new Categoria(null, "Escritório");
