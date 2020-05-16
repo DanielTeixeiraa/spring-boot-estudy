@@ -38,7 +38,7 @@ public class CategoriaController {
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> listaUma(@PathVariable("id") Integer id) {
-		Categoria obj = service.buscar(id);
+		Categoria obj = service.find(id);
 		if(obj == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(obj,HttpStatus.OK);
@@ -51,7 +51,7 @@ public class CategoriaController {
 	
 	@DeleteMapping(path="/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-		service.buscar(id);
+		service.find(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
