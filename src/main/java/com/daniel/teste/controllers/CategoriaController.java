@@ -1,7 +1,5 @@
 package com.daniel.teste.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,25 +20,20 @@ import com.daniel.teste.services.CategoriaService;
 @RestController
 @RequestMapping("/categoria")
 public class CategoriaController {
-	private final CategoriaRepository categoriaDao;
+	private final CategoriaRepository categoriaRepository;
 	
 	@Autowired
 	private CategoriaService service;
 	
 	@Autowired
-	public CategoriaController(CategoriaRepository categoriaDao) {
-		this.categoriaDao = categoriaDao;
+	public CategoriaController(CategoriaRepository categoriaRepository) {
+		this.categoriaRepository = categoriaRepository;
 	}
 	
 	
 	@GetMapping
 	public ResponseEntity<?> listarCategoria() {
-		Categoria cat1 = new Categoria("Daniel");
-		Categoria cat2 = new Categoria("Andre");
-		List<Categoria> catlist = new ArrayList<>();
-		catlist.add(cat1);
-		catlist.add(cat2);
-	return new ResponseEntity<>(categoriaDao.findAll(),HttpStatus.OK);
+	return new ResponseEntity<>(categoriaRepository.findAll(),HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/{id}")

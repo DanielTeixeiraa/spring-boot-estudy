@@ -12,21 +12,21 @@ import com.daniel.teste.repositories.CategoriaRepository;
 public class CategoriaService {
 	
 	@Autowired
-	private CategoriaRepository categoriaDao;
+	private CategoriaRepository categoriaRepository;
 	
 	public Categoria buscar(Integer id) {
-		Optional<Categoria> obj = categoriaDao.findById(id);
+		Optional<Categoria> obj = categoriaRepository.findById(id);
 		return obj.orElse(null);
 	}
 	public Categoria salvar(Categoria categoria) {
-		Categoria cat = categoriaDao.save(categoria);
+		Categoria cat = categoriaRepository.save(categoria);
 		return cat;	
 	}
 	public void delete(Integer id) {
-		categoriaDao.deleteById(id);
+		categoriaRepository.deleteById(id);
 	}
 	public Categoria update(Categoria categoria) {
-		Categoria cat = categoriaDao.save(categoria);
+		Categoria cat = categoriaRepository.save(categoria);
 		return cat;	
 	}
 }
