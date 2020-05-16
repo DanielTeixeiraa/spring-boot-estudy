@@ -12,21 +12,21 @@ import com.daniel.teste.repositories.ProdutoRepository;
 public class ProdutoService {
 	
 	@Autowired
-	private ProdutoRepository produtoRepository;
+	private ProdutoRepository service;
 	
-	public Produto buscar(Integer id) {
-		Optional<Produto> obj = produtoRepository.findById(id);
+	public Produto find(Integer id) {
+		Optional<Produto> obj = service.findById(id);
 		return obj.orElse(null);
 	}
 	public Produto salvar(Produto produto) {
-		Produto prod = produtoRepository.save(produto);
+		Produto prod = service.save(produto);
 		return prod;	
 	}
 	public void delete(Integer id) {
-		produtoRepository.deleteById(id);
+		service.deleteById(id);
 	}
 	public Produto update(Produto produto) {
-		Produto prod = produtoRepository.save(produto);
+		Produto prod = service.save(produto);
 		return prod;	
 	}
 

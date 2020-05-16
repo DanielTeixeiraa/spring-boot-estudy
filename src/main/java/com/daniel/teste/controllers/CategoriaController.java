@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daniel.teste.error.ResourceNotFoundException;
 import com.daniel.teste.models.Categoria;
 import com.daniel.teste.repositories.CategoriaRepository;
 import com.daniel.teste.services.CategoriaService;
@@ -38,9 +39,8 @@ public class CategoriaController {
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> listaUma(@PathVariable("id") Integer id) {
+		verifyIfCategoriaExists(id);
 		Categoria obj = service.find(id);
-		if(obj == null)
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 	
@@ -51,6 +51,7 @@ public class CategoriaController {
 	
 	@DeleteMapping(path="/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+		verifyIfCategoriaExists(id);
 		service.find(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -60,6 +61,9 @@ public class CategoriaController {
 		return new ResponseEntity<>(service.update(categoria),HttpStatus.OK);
 	}
 		
-	
+	private void verifyIfCategoriaExists(Integer id) {
+		if(service.find(id) ==null) {
+			throw new ResourceNotFoundException("Caregoria nao econtrada");
+	}}
 	
 }
