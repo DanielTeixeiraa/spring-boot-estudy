@@ -20,7 +20,7 @@ public class CategoriaService {
 		return obj.orElse(null);
 	}
 	
-	public Categoria salvar(Categoria categoria) {
+	public Categoria save(Categoria categoria) {
 		Categoria cat = categoriaRepository.save(categoria);
 		return cat;	
 	}

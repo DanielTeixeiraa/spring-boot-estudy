@@ -1,6 +1,5 @@
 package com.daniel.teste.controllers;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,56 +13,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daniel.teste.error.ResourceNotFoundException;
-import com.daniel.teste.models.Categoria;
-import com.daniel.teste.repositories.CategoriaRepository;
-import com.daniel.teste.services.CategoriaService;
+import com.daniel.teste.models.Cliente;
+import com.daniel.teste.repositories.ClienteRepository;
+import com.daniel.teste.services.ClienteService;
 
 @RestController
-@RequestMapping("/categoria")
-public class CategoriaController {
-	private final CategoriaRepository categoriaRepository;
+@RequestMapping("/cliente")
+public class ClienteController {
+	private final ClienteRepository clienteRepository;
 	
 	@Autowired
-	private CategoriaService service;
+	private ClienteService service;
 	
 	@Autowired
-	public CategoriaController(CategoriaRepository categoriaRepository) {
-		this.categoriaRepository = categoriaRepository;
+	public ClienteController(ClienteRepository clienteRepository) {
+		this.clienteRepository = clienteRepository;
 	}
 	
 	
 	@GetMapping
-	public ResponseEntity<?> listarCategoria() {
-	return new ResponseEntity<>(categoriaRepository.findAll(),HttpStatus.OK);
+	public ResponseEntity<?> listarClientes() {
+	return new ResponseEntity<>(clienteRepository.findAll(),HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<?> listaUma(@PathVariable("id") Integer id) {
-		verifyIfCategoriaExists(id);
-		Categoria obj = service.find(id);
+	public ResponseEntity<?> listaUm(@PathVariable("id") Integer id) {
+		verifyIfClienteExists(id);
+		Cliente obj = service.find(id);
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody Categoria categoria) {
-		return new ResponseEntity<>(service.save(categoria),HttpStatus.OK);
+	public ResponseEntity<?> save(@RequestBody Cliente cliente) {
+		return new ResponseEntity<>(service.save(cliente),HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path="/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-		verifyIfCategoriaExists(id);
+		verifyIfClienteExists(id);
 		service.find(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PutMapping
-	public ResponseEntity<?> update(@RequestBody Categoria categoria) {
-		return new ResponseEntity<>(service.update(categoria),HttpStatus.OK);
+	public ResponseEntity<?> update(@RequestBody Cliente cliente) {
+		return new ResponseEntity<>(service.update(cliente),HttpStatus.OK);
 	}
 		
-	private void verifyIfCategoriaExists(Integer id) {
+	private void verifyIfClienteExists(Integer id) {
 		if(service.find(id) ==null) {
-			throw new ResourceNotFoundException("Caregoria nao econtrada");
+			throw new ResourceNotFoundException("Cliente nao econtrada");
 	}}
-	
 }
