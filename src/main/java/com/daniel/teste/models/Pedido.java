@@ -3,7 +3,11 @@ package com.daniel.teste.models;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,9 +42,13 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemPedido> itens = new HashSet<>();
+	
 	//POR CAUSA DE SER DATA
 	@Temporal(TemporalType.TIMESTAMP) 
 	private Date instante;
+	
 	@ManyToOne
 	@JoinColumn(name = "Cliente_id")
 	@JsonBackReference
@@ -59,6 +68,14 @@ public class Pedido implements Serializable {
 		this.instante = instante;
 		this.cliente = cliente;
 		this.endereco = endereco;
+	}
+	
+	public List<Pedido> getPedido(){  //PERCORRER UMA LISTA DE PRODUTOS ATRAVES DA ITEMPEDIDO
+		List<Pedido> list = new ArrayList<>();
+		for(ItemPedido p: itens) {
+			list.add(p.getPedido());
+		}
+		return list;
 	}
 
 	@Override

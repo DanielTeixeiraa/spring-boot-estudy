@@ -1,10 +1,8 @@
 package com.daniel.teste.enums;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public enum EstadoPagamento {
 	
 	PENDENTE(1,"Pedente"),
