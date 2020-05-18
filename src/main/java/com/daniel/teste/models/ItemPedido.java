@@ -5,6 +5,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ public class ItemPedido {
 		this.preco = preco;
 	}
 	
-	@JsonIgnore
+	@JsonManagedReference
 	public Produto getProduto() {
 		return id.getProduto();
 	}

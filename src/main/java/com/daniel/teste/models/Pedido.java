@@ -21,7 +21,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -44,16 +44,16 @@ public class Pedido implements Serializable {
 	private Integer id;
 	
 	@OneToMany(mappedBy = "id.pedido")
-	@JsonIgnore
 	private Set<ItemPedido> itens = new HashSet<>();
 	
 	//POR CAUSA DE SER DATA
-	@Temporal(TemporalType.TIMESTAMP) 
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm") //formatar data
 	private Date instante;
 	
 	@ManyToOne
 	@JoinColumn(name = "Cliente_id")
-	@JsonBackReference
+	@JsonManagedReference
 	private Cliente cliente;
 	
 	@JsonManagedReference
@@ -61,15 +61,15 @@ public class Pedido implements Serializable {
 	private Pagamento pagamento;
 	
 	@ManyToOne
-	@JoinColumn(name = "endereco_id")
-	private Endereco endereco;
+	@JoinColumn(name = "enderecoDeEntrega_id")
+	private Endereco enderecoDeEntrega;
 	
-	public Pedido(Integer id, Date instante, Cliente cliente, Endereco endereco) {
+	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
 		super();
 		this.id = id;
 		this.instante = instante;
 		this.cliente = cliente;
-		this.endereco = endereco;
+		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
 	
 	@JsonIgnore
