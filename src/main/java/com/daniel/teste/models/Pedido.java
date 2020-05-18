@@ -13,6 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,12 +36,16 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Date instance;
+	
+	//POR CAUSA DE SER DATA
+	@Temporal(TemporalType.TIMESTAMP) 
+	private Date instante;
 	@ManyToOne
 	@JoinColumn(name = "Cliente_id")
+	@JsonBackReference
 	private Cliente cliente;
 	
-	
+	@JsonManagedReference
 	@OneToOne(cascade =CascadeType.ALL, mappedBy = "pedido") //Relacionamento 1 para 1. os dois vao ter o mesmo Id
 	private Pagamento pagamento;
 	
@@ -44,12 +53,11 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "endereco_id")
 	private Endereco endereco;
 	
-	public Pedido(Integer id, Date instance, Cliente cliente, Pagamento pagamento, Endereco endereco) {
+	public Pedido(Integer id, Date instante, Cliente cliente, Endereco endereco) {
 		super();
 		this.id = id;
-		this.instance = instance;
+		this.instante = instante;
 		this.cliente = cliente;
-		this.pagamento = pagamento;
 		this.endereco = endereco;
 	}
 

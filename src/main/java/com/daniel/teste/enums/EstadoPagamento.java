@@ -1,12 +1,16 @@
 package com.daniel.teste.enums;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public enum EstadoPagamento {
+	
 	PENDENTE(1,"Pedente"),
 	QUITADO(2,"Quitado"),
 	CANCELADO(3,"Cancelado");
+	
 	private Integer cod;
 	private String descricao;
 	

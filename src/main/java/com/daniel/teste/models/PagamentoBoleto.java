@@ -3,6 +3,8 @@ package com.daniel.teste.models;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.daniel.teste.enums.EstadoPagamento;
 
@@ -17,7 +19,9 @@ public class PagamentoBoleto extends Pagamento {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Temporal(TemporalType.DATE) 
 	private Date dataVencimento;
+	@Temporal(TemporalType.DATE) 
 	private Date dataPagamento;
 	public PagamentoBoleto(Integer id, EstadoPagamento estadoPagamento, Pedido pedido, Date dateVencimento, Date datePagamento) {
 		super(id, estadoPagamento, pedido);

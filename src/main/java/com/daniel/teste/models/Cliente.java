@@ -37,12 +37,14 @@ public class Cliente implements Serializable {
 	@ElementCollection
 	//Criando uma tabela com nome telefones
 	@CollectionTable(name="telefones")
+	@JsonManagedReference
 	private Set<String> numero = new HashSet<>();
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy="cliente")
 	private List<Endereco> endecos = new ArrayList<>();
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy="cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 

@@ -11,6 +11,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.daniel.teste.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,17 +31,18 @@ public class Pagamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	private Integer id;
-	private EstadoPagamento estadoPagamento;
+	private Integer estado;
 	
 	@OneToOne
 	@JoinColumn(name="Pedido_id")
 	@MapsId
+	@JsonBackReference
 	private Pedido pedido;
 	
 	public Pagamento(Integer id, EstadoPagamento estadoPagamento, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estadoPagamento = estadoPagamento;
+		this.estado = estadoPagamento.getCod();
 		this.pedido = pedido;
 	}
 	@Override
@@ -67,5 +69,12 @@ public class Pagamento implements Serializable {
 		return true;
 	}
 	
+	public EstadoPagamento getEstado() {
+		return EstadoPagamento.toEnum(estado);
+	}
+
+	public void setEstado(EstadoPagamento estado) {
+		this.estado = estado.getCod();
+	}
 	
 }
