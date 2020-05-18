@@ -13,55 +13,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daniel.teste.error.ResourceNotFoundException;
-import com.daniel.teste.models.Produto;
-import com.daniel.teste.repositories.ProdutoRepository;
-import com.daniel.teste.services.ProdutoService;
+import com.daniel.teste.models.Pedido;
+import com.daniel.teste.repositories.PedidoRepository;
+import com.daniel.teste.services.PedidoService;
 
 @RestController
-@RequestMapping("/produtos")
-public class ProdutoController {
-	private final ProdutoRepository produtoRepository;
+@RequestMapping("/pedidos")
+public class PedidoController {
+	private final PedidoRepository pedidoRepository;
 
 	@Autowired
-	private ProdutoService service;
+	private PedidoService service;
 
 	@Autowired
-	public ProdutoController(ProdutoRepository produtoRepository) {
-		this.produtoRepository = produtoRepository;
+	public PedidoController(PedidoRepository pedidoRepository) {
+		this.pedidoRepository = pedidoRepository;
 	}
 
 	@GetMapping
 	public ResponseEntity<?> listarCategoria() {
-		return new ResponseEntity<>(produtoRepository.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(pedidoRepository.findAll(), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<?> listaUma(@PathVariable("id") Integer id) {
-		verifyIfProdutoExists(id);
-		Produto obj = service.find(id);
+	public ResponseEntity<?> listaUm(@PathVariable("id") Integer id) {
+		verifyIfPedidoExists(id);
+		Pedido obj = service.find(id);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody Produto produto) {
-		return new ResponseEntity<>(service.salvar(produto), HttpStatus.OK);
+	public ResponseEntity<?> save(@RequestBody Pedido pedido) {
+		return new ResponseEntity<>(service.save(pedido), HttpStatus.OK);
 	}
 
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-		verifyIfProdutoExists(id);
+		verifyIfPedidoExists(id);
 		service.find(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PutMapping
-	public ResponseEntity<?> update(@RequestBody Produto produto) {
-		return new ResponseEntity<>(service.update(produto), HttpStatus.OK);
+	public ResponseEntity<?> update(@RequestBody Pedido pedido) {
+		return new ResponseEntity<>(service.update(pedido), HttpStatus.OK);
 	}
 
-	private void verifyIfProdutoExists(Integer id) {
+	private void verifyIfPedidoExists(Integer id) {
 		if (service.find(id) == null) {
-			throw new ResourceNotFoundException("Caregoria nao econtrada");
+			throw new ResourceNotFoundException("Pedido nao encontrado");
 		}
 	}
 

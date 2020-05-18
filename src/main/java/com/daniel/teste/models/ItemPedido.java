@@ -4,6 +4,8 @@ package com.daniel.teste.models;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +20,7 @@ public class ItemPedido {
 	private Double preco;
 	
 	@EmbeddedId //USADA NA CHAVE COMPOSTA
+	@JsonIgnore
 	private ItemPedido_PK id = new ItemPedido_PK();
 
 	public ItemPedido(Pedido pedido,Produto produto,Double desconto, Integer quantidade, Double preco) {
@@ -29,9 +32,11 @@ public class ItemPedido {
 		this.preco = preco;
 	}
 	
+	@JsonIgnore
 	public Produto getProduto() {
 		return id.getProduto();
 	}
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}

@@ -19,7 +19,7 @@ import com.daniel.teste.repositories.CategoriaRepository;
 import com.daniel.teste.services.CategoriaService;
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/categorias")
 public class CategoriaController {
 	private final CategoriaRepository categoriaRepository;
 	

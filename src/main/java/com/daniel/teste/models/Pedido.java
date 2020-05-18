@@ -22,6 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
@@ -43,6 +44,7 @@ public class Pedido implements Serializable {
 	private Integer id;
 	
 	@OneToMany(mappedBy = "id.pedido")
+	@JsonIgnore
 	private Set<ItemPedido> itens = new HashSet<>();
 	
 	//POR CAUSA DE SER DATA
@@ -70,6 +72,7 @@ public class Pedido implements Serializable {
 		this.endereco = endereco;
 	}
 	
+	@JsonIgnore
 	public List<Pedido> getPedido(){  //PERCORRER UMA LISTA DE PRODUTOS ATRAVES DA ITEMPEDIDO
 		List<Pedido> list = new ArrayList<>();
 		for(ItemPedido p: itens) {

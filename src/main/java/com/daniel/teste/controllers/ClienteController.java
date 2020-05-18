@@ -18,7 +18,7 @@ import com.daniel.teste.repositories.ClienteRepository;
 import com.daniel.teste.services.ClienteService;
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("/clientes")
 public class ClienteController {
 	private final ClienteRepository clienteRepository;
 	
