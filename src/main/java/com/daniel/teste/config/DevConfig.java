@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("test")
-//CONFIGURAÇAO DA APLICAÇAO DE TEST
-public class TestConfig {
+@Profile("dev")
+//CONFIGURAÇAO DA APLICAÇAO DE DEV
+public class DevConfig {
 	@Autowired
 	private DBservice db;
 	@Value("${spring.jpa.hibernate.ddl-auto}")
@@ -24,5 +24,5 @@ public class TestConfig {
 		}
 		db.iniciar();
 		return true;
-}
+	}
 }
