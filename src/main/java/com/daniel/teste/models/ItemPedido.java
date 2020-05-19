@@ -33,6 +33,10 @@ public class ItemPedido {
 		this.preco = preco;
 	}
 	
+	public Double getSubProduto() {
+		return ((preco - desconto)*quantidade);		
+	}
+	
 	@JsonManagedReference
 	public Produto getProduto() {
 		return id.getProduto();

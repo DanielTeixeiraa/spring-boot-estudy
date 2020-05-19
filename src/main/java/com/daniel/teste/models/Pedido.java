@@ -72,6 +72,14 @@ public class Pedido implements Serializable {
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
 	
+	@JsonManagedReference
+	public Double getValorTotal() {
+		double soma = 0.00;
+		for(ItemPedido i : itens)
+			soma += i.getSubProduto();
+		return soma;
+	}
+	
 	@JsonIgnore
 	public List<Pedido> getPedido(){  //PERCORRER UMA LISTA DE PRODUTOS ATRAVES DA ITEMPEDIDO
 		List<Pedido> list = new ArrayList<>();

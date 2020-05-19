@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 //CONVERTER A URL DE STRINGS EM NUMEROS INTEIROS
 public class URL {
-
+	
+	//DESCODIFICAR O PARAMETRO RECEBIDO
 	public static String decodeParam(String s) {
 		try {
 			return URLDecoder.decode(s, "UTF-8");
