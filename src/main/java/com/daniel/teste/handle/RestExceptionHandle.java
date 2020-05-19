@@ -1,11 +1,10 @@
 package com.daniel.teste.handle;
 
-
-
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.JDBCException;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -14,36 +13,26 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.daniel.teste.error.DataIntegrityException;
-import com.daniel.teste.error.ResourceNotFoundDetails;
-import com.daniel.teste.error.ResourceNotFoundException;
 import com.daniel.teste.error.StandardError;
 import com.daniel.teste.error.ValidationError;
 
+
+
 @ControllerAdvice
 public class RestExceptionHandle {
-	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfException, HttpServletRequest request){
-		ResourceNotFoundDetails details = ResourceNotFoundDetails.builder()
-				.withTimestamp(new Date().getTime())
-				.withStatus(HttpStatus.NOT_FOUND.value())
-				.withTitle("Resouce not found")
-				.withDetail(rnfException.getMessage())
-				.withDeveloperMessage(rnfException.getClass().getName())
-				.build();
-		return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(details);
+	
+	@ExceptionHandler(ObjectNotFoundException.class)
+	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
 		
+		StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
+	
 	@ExceptionHandler(DataIntegrityException.class)
-	public ResponseEntity<?> DataIntegrityException(DataIntegrityException rnfException, HttpServletRequest request){
-		ResourceNotFoundDetails details = ResourceNotFoundDetails.builder()
-				.withTimestamp(new Date().getTime())
-				.withStatus(HttpStatus.BAD_REQUEST.value())
-				.withTitle("Resouce not found")
-				.withDetail(rnfException.getMessage())
-				.withDeveloperMessage(rnfException.getClass().getName())
-				.build();
-		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(details);
+	public ResponseEntity<StandardError> dataIntegrity(DataIntegrityException e, HttpServletRequest request) {
 		
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -54,5 +43,13 @@ public class RestExceptionHandle {
 			err.addError(x.getField(), x.getDefaultMessage());
 		}		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
+	@ExceptionHandler(JDBCException.class)
+	public ResponseEntity<StandardError> JdbcSQLException(JDBCException e, HttpServletResponse request){
+	ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(),
+	"Email existente na atualização",System.currentTimeMillis());
+	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+
 	}
 }
