@@ -9,14 +9,21 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.daniel.teste.dto.ClienteDTO;
+import com.daniel.teste.dto.ClienteNewDTO;
+import com.daniel.teste.enums.TipoCliente;
+import com.daniel.teste.models.Cidade;
 import com.daniel.teste.models.Cliente;
+import com.daniel.teste.models.Endereco;
 import com.daniel.teste.repositories.ClienteRepository;
+import com.daniel.teste.repositories.EnderecoRepository;
 
 @Service
 public class ClienteService {
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public Cliente find(Integer id) {
 		 Optional<Cliente> obj = clienteRepository.findById(id);
@@ -24,7 +31,9 @@ public class ClienteService {
 	}
 	
 	public Cliente save(Cliente cliente) {
+		cliente.setId(null);
 		Cliente obj = clienteRepository.save(cliente);
+		enderecoRepository.saveAll(obj.getEndecos());
 		return obj;	
 	}
 	public void delete(Integer id) {
@@ -43,8 +52,22 @@ public class ClienteService {
 		
 		}
 	
-		public Cliente FromClienteDto(ClienteDTO dto) {
-			return new Cliente(dto.getId(),dto.getNome(),dto.getEmail(),null,null);
+		public Cliente FromClienteDto(ClienteDTO objDto) {
+			return new Cliente(objDto.getId(),objDto.getNome(),objDto.getEmail(),null,null);
+		}
+		public Cliente FromClienteDto(ClienteNewDTO objDto) {
+			Cliente cli = new Cliente(null,objDto.getNome(),objDto.getEmail(),objDto.getCpfOuCnpj(),TipoCliente.toEnum(objDto.getTipo()));
+			Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
+			Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cid, cli);
+			cli.getEndecos().add(end);
+			cli.getNumero().add(objDto.getTelefone1());
+			if (objDto.getTelefone2()!=null) {
+				cli.getNumero().add(objDto.getTelefone2());
+			}
+			if (objDto.getTelefone3()!=null) {
+				cli.getNumero().add(objDto.getTelefone3());
+			}
+			return cli;
 		}
 		
 		private void updateData(Cliente newObj, Cliente obj) {
