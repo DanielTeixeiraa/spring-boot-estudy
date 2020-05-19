@@ -39,7 +39,7 @@ public class RestExceptionHandle {
 				.withTimestamp(new Date().getTime())
 				.withStatus(HttpStatus.BAD_REQUEST.value())
 				.withTitle("Resouce not found")
-				.withDetail("Erro de validaçao")
+				.withDetail(rnfException.getMessage())
 				.withDeveloperMessage(rnfException.getClass().getName())
 				.build();
 		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(details);

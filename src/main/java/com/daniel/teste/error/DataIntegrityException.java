@@ -1,4 +1,4 @@
-package com.daniel.teste.error;
+	package com.daniel.teste.error;
 
 public class DataIntegrityException extends RuntimeException {
 

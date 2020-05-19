@@ -3,6 +3,7 @@ package com.daniel.teste.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.daniel.teste.dto.ClienteDTO;
 import com.daniel.teste.dto.ClienteNewDTO;
 import com.daniel.teste.enums.TipoCliente;
+import com.daniel.teste.error.DataIntegrityException;
 import com.daniel.teste.models.Cidade;
 import com.daniel.teste.models.Cliente;
 import com.daniel.teste.models.Endereco;
@@ -36,8 +38,15 @@ public class ClienteService {
 		enderecoRepository.saveAll(obj.getEndecos());
 		return obj;	
 	}
+	
 	public void delete(Integer id) {
-		clienteRepository.deleteById(id);
+		find(id);
+		try {
+			clienteRepository.deleteById(id);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir porque há pedidos relacionados");
+		}
 	}
 	
 	public Cliente update(Cliente obj) {

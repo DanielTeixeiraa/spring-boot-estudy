@@ -103,31 +103,31 @@ public class ProjetoApplication implements CommandLineRunner { //USADO PARA COLO
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm"); 
-
-		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:39"), cli1, e1);
-		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 17:39"), cli1, e2);
-
-		Pagamento pag1 = new PagamentoCartao(null, EstadoPagamento.QUITADO, ped1, 6);
-		Pagamento pag2 = new PagamentoBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("10/10/2017 00:00"), null);
-		ped1.setPagamento(pag1);
-		ped2.setPagamento(pag2);
-		
-		cli1.getPedidos().addAll(Arrays.asList(ped1,ped2));
-		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
-		pagamentoRepository.saveAll(Arrays.asList(pag1,pag2));
-		
-		ItemPedido iten1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
-		ItemPedido iten2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
-		ItemPedido iten3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
-		
-		ped1.getItens().addAll(Arrays.asList(iten1,iten2));
-		ped2.getItens().addAll(Arrays.asList(iten3));
-		
-		p1.getItens().addAll(Arrays.asList(iten1));
-		p2.getItens().addAll(Arrays.asList(iten3));
-		p3.getItens().addAll(Arrays.asList(iten2));
-		
-		itemPedidoRepository.saveAll(Arrays.asList(iten1,iten2,iten3));
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm"); 
+//
+//		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:39"), cli1, e1);
+//		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 17:39"), cli1, e2);
+//
+//		Pagamento pag1 = new PagamentoCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+//		Pagamento pag2 = new PagamentoBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("10/10/2017 00:00"), null);
+//		ped1.setPagamento(pag1);
+//		ped2.setPagamento(pag2);
+//		
+//		cli1.getPedidos().addAll(Arrays.asList(ped1,ped2));
+//		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
+//		pagamentoRepository.saveAll(Arrays.asList(pag1,pag2));
+//		
+//		ItemPedido iten1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+//		ItemPedido iten2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+//		ItemPedido iten3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+//		
+//		ped1.getItens().addAll(Arrays.asList(iten1,iten2));
+//		ped2.getItens().addAll(Arrays.asList(iten3));
+//		
+//		p1.getItens().addAll(Arrays.asList(iten1));
+//		p2.getItens().addAll(Arrays.asList(iten3));
+//		p3.getItens().addAll(Arrays.asList(iten2));
+//		
+//		itemPedidoRepository.saveAll(Arrays.asList(iten1,iten2,iten3));
 	}
 }
