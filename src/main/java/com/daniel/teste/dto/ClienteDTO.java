@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.daniel.teste.models.Cliente;
+import com.daniel.teste.services.validation.ClienteUpdate;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@ClienteUpdate //USADO PARA USAR AS VERIFICAÇOES DO CLIENTEUPDATE
 public class ClienteDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
