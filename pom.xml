@@ -11,7 +11,7 @@
 	<groupId>com.daniel</groupId>
 	<artifactId>spring_boot_estudy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>projeto</name>
+	<name>spring_boot_estudy</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
