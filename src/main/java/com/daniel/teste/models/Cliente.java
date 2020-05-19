@@ -17,7 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.daniel.teste.enums.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
@@ -44,11 +44,10 @@ public class Cliente implements Serializable {
 	@JsonManagedReference
 	private Set<String> numero = new HashSet<>();
 	
-	@JsonManagedReference
 	@OneToMany(mappedBy="cliente", cascade =  CascadeType.ALL) //TODA VEZ QUE APAGAR O CLIENTE VAI APAGARR OS ENDEREÇOS
 	private List<Endereco> endecos = new ArrayList<>();
 	
-	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy="cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 

@@ -47,16 +47,14 @@ public class Pedido implements Serializable {
 	private Set<ItemPedido> itens = new HashSet<>();
 	
 	//POR CAUSA DE SER DATA
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE) 
 	@JsonFormat(pattern="dd/MM/yyyy HH:mm") //formatar data
 	private Date instante;
 	
 	@ManyToOne
 	@JoinColumn(name = "Cliente_id")
-	@JsonManagedReference
 	private Cliente cliente;
 	
-	@JsonManagedReference
 	@OneToOne(cascade =CascadeType.ALL, mappedBy = "pedido") //Relacionamento 1 para 1. os dois vao ter o mesmo Id
 	private Pagamento pagamento;
 	
