@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 //CONFIGURAÇAO DA APLICAÇAO DE DEV
 public class DevConfig {
 	@Autowired
-	private DBservice db;
+	private DBservice dba;
 	@Value("${spring.jpa.hibernate.ddl-auto}")
 	private String strategy;
 	@Bean
@@ -22,7 +22,7 @@ public class DevConfig {
 		if(!"Create".equals(strategy)) {
 			return false;
 		}
-		db.iniciar();
+		dba.iniciar();
 		return true;
 	}
 }
