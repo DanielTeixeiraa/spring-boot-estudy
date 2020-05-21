@@ -50,7 +50,7 @@ public class DBservice {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 	public  void iniciar() throws ParseException {
-		
+
 		Estado es1 = new Estado(null, "minas");
 		Estado es2 = new Estado(null, "Sp");
 

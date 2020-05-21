@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import com.daniel.teste.enums.EstadoPagamento;
 import com.daniel.teste.enums.TipoCliente;
@@ -31,9 +32,15 @@ import com.daniel.teste.repositories.ItemPedidoRepository;
 import com.daniel.teste.repositories.PagamentoRepository;
 import com.daniel.teste.repositories.PedidoRepository;
 import com.daniel.teste.repositories.ProdutoRepository;
+import com.daniel.teste.services.EmailService;
+import com.daniel.teste.services.smtpEmailService;
 
 @SpringBootApplication
 public class ProjetoApplication implements CommandLineRunner { //USADO PARA COLOCAR FUNÇOES NO MAIN
+	@Bean
+	public EmailService emailservice() {
+		return new smtpEmailService();
+	}
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
@@ -121,7 +128,7 @@ public class ProjetoApplication implements CommandLineRunner { //USADO PARA COLO
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "333222999", TipoCliente.PESSOA_FISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "jimaxd@gmail.com", "333222999", TipoCliente.PESSOA_FISICA);
 
 		cli1.getTelefones().addAll(Arrays.asList("22993909987"));
 

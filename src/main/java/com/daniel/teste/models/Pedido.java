@@ -1,8 +1,11 @@
 package com.daniel.teste.models;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -61,6 +64,30 @@ public class Pedido implements Serializable {
 		return soma;
 	}
 	
+	
+	
+	
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR")); //Formatar Dinheiro
+		SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy hh:mm"); //formatando data
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido Numero" );
+		builder.append(getId() );
+		builder.append(", Instante" );
+		builder.append(sf.format(getInstante()));
+		builder.append(", Cliente" );
+		builder.append(getCliente().getNome() );
+		builder.append(", Situaçao");
+		builder.append(getPagamento().getEstado().getDescricao());
+		builder.append("\nDetalhes\n");
+		for(ItemPedido i : getItens()) 
+		builder.append(i.toString());
+		builder.append("Valor total");
+		builder.append(nf.format(getValorTotal()));
+		return builder.toString();
+	}
+
 	public Integer getId() {
 		return id;
 	}

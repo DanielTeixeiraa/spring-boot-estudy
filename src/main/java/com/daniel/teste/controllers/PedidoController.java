@@ -16,6 +16,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.daniel.teste.models.Pedido;
 import com.daniel.teste.services.PedidoService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/pedidos")
 public class PedidoController {
@@ -28,7 +30,7 @@ public class PedidoController {
 		Pedido obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
+	@ApiOperation(value="Inserir pedido")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) {
 		obj = service.insert(obj);
