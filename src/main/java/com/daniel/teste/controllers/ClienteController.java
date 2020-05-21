@@ -70,8 +70,8 @@ public class ClienteController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<?> save(@Valid @RequestBody ClienteNewDTO dto) {
-		Cliente obj = service.FromClienteDto(dto);
-		return new ResponseEntity<>(service.save(obj),HttpStatus.OK);
+		Cliente obj = service.fromDTO(dto);
+		return new ResponseEntity<>(service.update(obj),HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path="/{id}")
@@ -83,7 +83,7 @@ public class ClienteController {
 	
 	@PutMapping(value="/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody ClienteDTO dto, @PathVariable Integer id) {
-		Cliente obj = service.FromClienteDto(dto);
+		Cliente obj = service.fromDTO(dto);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();

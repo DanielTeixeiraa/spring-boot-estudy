@@ -19,7 +19,7 @@ public class TestConfig {
 	private String strategy;
 	@Bean
 	public boolean iniciarDataBase() throws ParseException {
-		if(!"Create".equals(strategy)) {
+		if(!"create".equals(strategy)) {
 			return false;
 		}
 		db.iniciar();
