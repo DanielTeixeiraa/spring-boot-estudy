@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.daniel.teste.enums.EstadoPagamento;
@@ -49,6 +50,8 @@ public class DBservice {
 	private PagamentoRepository pagamentoRepository;
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	@Autowired
+	BCryptPasswordEncoder pass;
 	public  void iniciar() throws ParseException {
 
 		Estado es1 = new Estado(null, "minas");
@@ -111,7 +114,7 @@ public class DBservice {
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "333222999", TipoCliente.PESSOA_FISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "333222999", TipoCliente.PESSOA_FISICA,pass.encode("123"));
 
 		cli1.getTelefones().addAll(Arrays.asList("22993909987"));
 
