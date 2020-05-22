@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.daniel.teste.enums.EstadoPagamento;
+import com.daniel.teste.enums.Perfil;
 import com.daniel.teste.enums.TipoCliente;
 import com.daniel.teste.models.Categoria;
 import com.daniel.teste.models.Cidade;
@@ -140,7 +141,7 @@ public class ProjetoApplication implements CommandLineRunner { //USADO PARA COLO
 		Endereco e1 = new Endereco(null, "Rua ceara", "89", "Casa", "Centro", "201278", cli1, c1);
 		Endereco e2 = new Endereco(null, "Rua sao paulo", "29", "Casa", "Centro", "202876", cli1, c2);
 		Endereco e3 = new Endereco(null, "Rua janeiro", "19", "Casa", "Roça", "212876", cli2, c1);
-
+		cli2.setPerfil(Perfil.ADMIN);
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 		cli2.getEnderecos().addAll(Arrays.asList(e3));
 

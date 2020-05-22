@@ -12,6 +12,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,10 @@ import com.daniel.teste.enums.Perfil;
 import com.daniel.teste.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Getter;
+
 @Entity
+@Getter
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -31,8 +35,8 @@ public class Cliente implements Serializable {
 	private Integer id;
 	private String nome;
 	
-	@ElementCollection
-	@CollectionTable(name="Perfies")
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
 	
 	@JsonIgnore
