@@ -16,8 +16,8 @@ import com.daniel.teste.models.Endereco;
 import com.daniel.teste.models.Estado;
 import com.daniel.teste.models.ItemPedido;
 import com.daniel.teste.models.Pagamento;
-import com.daniel.teste.models.PagamentoBoleto;
-import com.daniel.teste.models.PagamentoCartao;
+import com.daniel.teste.models.PagamentoComBoleto;
+import com.daniel.teste.models.PagamentoComCartao;
 import com.daniel.teste.models.Pedido;
 import com.daniel.teste.models.Produto;
 import com.daniel.teste.repositories.CategoriaRepository;
@@ -50,7 +50,7 @@ public class DBservice {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 	public  void iniciar() throws ParseException {
-		
+
 		Estado es1 = new Estado(null, "minas");
 		Estado es2 = new Estado(null, "Sp");
 
@@ -113,12 +113,12 @@ public class DBservice {
 
 		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "333222999", TipoCliente.PESSOA_FISICA);
 
-		cli1.getNumero().addAll(Arrays.asList("22993909987"));
+		cli1.getTelefones().addAll(Arrays.asList("22993909987"));
 
-		Endereco e1 = new Endereco(null, "Rua ceara", "89", "Casa", "Centro", "201278", c1, cli1);
-		Endereco e2 = new Endereco(null, "Rua sao paulo", "29", "Casa", "Centro", "202876", c2, cli1);
+		Endereco e1 = new Endereco(null, "Rua ceara", "89", "Casa", "Centro", "201278", cli1, c1);
+		Endereco e2 = new Endereco(null, "Rua sao paulo", "29", "Casa", "Centro", "202876", cli1, c2);
 
-		cli1.getEndecos().addAll(Arrays.asList(e1, e2));
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
@@ -128,8 +128,8 @@ public class DBservice {
 		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:39"), cli1, e1);
 		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 17:39"), cli1, e2);
 
-		Pagamento pag1 = new PagamentoCartao(null, EstadoPagamento.QUITADO, ped1, 6);
-		Pagamento pag2 = new PagamentoBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("10/10/2017 00:00"), null);
+		Pagamento pag1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		Pagamento pag2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("10/10/2017 00:00"), null);
 		ped1.setPagamento(pag1);
 		ped2.setPagamento(pag2);
 		

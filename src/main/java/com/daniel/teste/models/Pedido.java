@@ -1,12 +1,11 @@
 package com.daniel.teste.models;
 
-
-
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,50 +17,37 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 public class Pedido implements Serializable {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToMany(mappedBy = "id.pedido")
-	private Set<ItemPedido> itens = new HashSet<>();
-	
-	//POR CAUSA DE SER DATA
-	@Temporal(TemporalType.DATE) 
-	@JsonFormat(pattern="dd/MM/yyyy HH:mm") //formatar data
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date instante;
 	
+	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido")
+	private Pagamento pagamento;
+
 	@ManyToOne
-	@JoinColumn(name = "Cliente_id")
+	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
-	@OneToOne(cascade =CascadeType.ALL, mappedBy = "pedido") //Relacionamento 1 para 1. os dois vao ter o mesmo Id
-	private Pagamento pagamento;
-	
 	@ManyToOne
-	@JoinColumn(name = "enderecoDeEntrega_id")
+	@JoinColumn(name="endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
 	
+	@OneToMany(mappedBy="id.pedido")
+	private Set<ItemPedido> itens = new HashSet<>();
+	
+	public Pedido() {
+	}
+
 	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
 		super();
 		this.id = id;
@@ -69,24 +55,87 @@ public class Pedido implements Serializable {
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
-	
-	@JsonManagedReference
-	public Double getValorTotal() {
-		double soma = 0.00;
-		for(ItemPedido i : itens)
-			soma += i.getSubProduto();
+
+	public double getValorTotal() {
+		double soma = 0.0;
+		for (ItemPedido ip : itens) {
+			soma = soma + ip.getSubTotal();
+		}
 		return soma;
 	}
 	
-	@JsonIgnore
-	public List<Pedido> getPedido(){  //PERCORRER UMA LISTA DE PRODUTOS ATRAVES DA ITEMPEDIDO
-		List<Pedido> list = new ArrayList<>();
-		for(ItemPedido p: itens) {
-			list.add(p.getPedido());
-		}
-		return list;
+	
+	
+	
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR")); //Formatar Dinheiro
+		SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy hh:mm"); //formatando data
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido Numero" );
+		builder.append(getId() );
+		builder.append(", Instante" );
+		builder.append(sf.format(getInstante()));
+		builder.append(", Cliente" );
+		builder.append(getCliente().getNome() );
+		builder.append(", Situaçao");
+		builder.append(getPagamento().getEstado().getDescricao());
+		builder.append("\nDetalhes\n");
+		for(ItemPedido i : getItens()) 
+		builder.append(i.toString());
+		builder.append("Valor total");
+		builder.append(nf.format(getValorTotal()));
+		return builder.toString();
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Date getInstante() {
+		return instante;
+	}
+
+	public void setInstante(Date instante) {
+		this.instante = instante;
+	}
+
+	public Pagamento getPagamento() {
+		return pagamento;
+	}
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Endereco getEnderecoDeEntrega() {
+		return enderecoDeEntrega;
+	}
+
+	public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
+		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -111,5 +160,6 @@ public class Pedido implements Serializable {
 			return false;
 		return true;
 	}
+	
 	
 }

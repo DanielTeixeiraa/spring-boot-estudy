@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import com.daniel.teste.enums.EstadoPagamento;
 import com.daniel.teste.enums.TipoCliente;
@@ -18,8 +19,8 @@ import com.daniel.teste.models.Endereco;
 import com.daniel.teste.models.Estado;
 import com.daniel.teste.models.ItemPedido;
 import com.daniel.teste.models.Pagamento;
-import com.daniel.teste.models.PagamentoBoleto;
-import com.daniel.teste.models.PagamentoCartao;
+import com.daniel.teste.models.PagamentoComBoleto;
+import com.daniel.teste.models.PagamentoComCartao;
 import com.daniel.teste.models.Pedido;
 import com.daniel.teste.models.Produto;
 import com.daniel.teste.repositories.CategoriaRepository;
@@ -31,9 +32,15 @@ import com.daniel.teste.repositories.ItemPedidoRepository;
 import com.daniel.teste.repositories.PagamentoRepository;
 import com.daniel.teste.repositories.PedidoRepository;
 import com.daniel.teste.repositories.ProdutoRepository;
+import com.daniel.teste.services.EmailService;
+import com.daniel.teste.services.smtpEmailService;
 
 @SpringBootApplication
 public class ProjetoApplication implements CommandLineRunner { //USADO PARA COLOCAR FUNÇOES NO MAIN
+	@Bean
+	public EmailService emailservice() {
+		return new smtpEmailService();
+	}
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
@@ -121,14 +128,14 @@ public class ProjetoApplication implements CommandLineRunner { //USADO PARA COLO
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "333222999", TipoCliente.PESSOA_FISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "", "333222999", TipoCliente.PESSOA_FISICA);
 
-		cli1.getNumero().addAll(Arrays.asList("22993909987"));
+		cli1.getTelefones().addAll(Arrays.asList("22993909987"));
 
-		Endereco e1 = new Endereco(null, "Rua ceara", "89", "Casa", "Centro", "201278", c1, cli1);
-		Endereco e2 = new Endereco(null, "Rua sao paulo", "29", "Casa", "Centro", "202876", c2, cli1);
+		Endereco e1 = new Endereco(null, "Rua ceara", "89", "Casa", "Centro", "201278", cli1, c1);
+		Endereco e2 = new Endereco(null, "Rua sao paulo", "29", "Casa", "Centro", "202876", cli1, c2);
 
-		cli1.getEndecos().addAll(Arrays.asList(e1, e2));
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
@@ -138,8 +145,8 @@ public class ProjetoApplication implements CommandLineRunner { //USADO PARA COLO
 		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:39"), cli1, e1);
 		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 17:39"), cli1, e2);
 
-		Pagamento pag1 = new PagamentoCartao(null, EstadoPagamento.QUITADO, ped1, 6);
-		Pagamento pag2 = new PagamentoBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("10/10/2017 00:00"), null);
+		Pagamento pag1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		Pagamento pag2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("10/10/2017 00:00"), null);
 		ped1.setPagamento(pag1);
 		ped2.setPagamento(pag2);
 		
