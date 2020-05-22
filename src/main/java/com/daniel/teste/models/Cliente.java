@@ -12,7 +12,6 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,12 +30,13 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	
+	@ElementCollection
+	@CollectionTable(name="Perfies")
+	private Set<Integer> perfis = new HashSet<>();
+	
 	@JsonIgnore
 	private String senha;
-	
-	@ElementCollection(fetch=FetchType.EAGER)
-	@CollectionTable(name="PERFIS")
-	private Set<Integer> perfis = new HashSet<>();
 	
 	@Column(unique=true)
 	private String email;
@@ -53,6 +53,7 @@ public class Cliente implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy="cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
+
 	
 	public Cliente() {
 		setPerfil(Perfil.CLIENTE);
@@ -68,8 +69,7 @@ public class Cliente implements Serializable {
 		this.senha = senha;
 		setPerfil(Perfil.CLIENTE);
 	}
-	
-	public Set<Perfil> getPerfil() {
+	public Set<Perfil> getPerfis() {
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
 	}
 	
@@ -87,13 +87,6 @@ public class Cliente implements Serializable {
 
 	public String getNome() {
 		return nome;
-	}
-	
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 
 	public void setNome(String nome) {
@@ -171,6 +164,5 @@ public class Cliente implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}	
-
+	}
 }

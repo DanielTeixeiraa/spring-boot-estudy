@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.daniel.teste.enums.EstadoPagamento;
-import com.daniel.teste.enums.Perfil;
 import com.daniel.teste.enums.TipoCliente;
 import com.daniel.teste.models.Categoria;
 import com.daniel.teste.models.Cidade;
@@ -132,27 +131,18 @@ public class ProjetoApplication implements CommandLineRunner { //USADO PARA COLO
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 
+		Cliente cli1 = new Cliente(null, "Maria Silva", "dan@gmail.com", "333222999", TipoCliente.PESSOA_FISICA,pass.encode("123"));
+		Cliente cli2 = new Cliente(null, "Ana Silva", "dart@gmail.com", "444222999", TipoCliente.PESSOA_FISICA,pass.encode("123"));
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "jimaxd@gmail.com", "333222999", TipoCliente.PESSOA_FISICA,pass.encode("123"));
-		Cliente cli2 = new Cliente(null, "ana Silva", "analux@gmail.com", "334222999", TipoCliente.PESSOA_FISICA,pass.encode("123"));
-		cli2.setPerfil(Perfil.ADMIN);
 		cli1.getTelefones().addAll(Arrays.asList("22993909987"));
-		cli2.getTelefones().addAll(Arrays.asList("22993909985","229939459985"));
+		cli2.getTelefones().addAll(Arrays.asList("22993908887","22998987656"));
 
 		Endereco e1 = new Endereco(null, "Rua ceara", "89", "Casa", "Centro", "201278", cli1, c1);
 		Endereco e2 = new Endereco(null, "Rua sao paulo", "29", "Casa", "Centro", "202876", cli1, c2);
-		Endereco e3 = new Endereco(null, "Rua j paulo", "1", "Casa", "Centro", "223876", cli2, c2);
-		cli2.getEnderecos().addAll(Arrays.asList(e3));
-
-		Cliente cli1 = new Cliente(null, "Maria Silva", "", "333222999", TipoCliente.PESSOA_FISICA);
-
-		cli1.getTelefones().addAll(Arrays.asList("22993909987"));
-
-		Endereco e1 = new Endereco(null, "Rua ceara", "89", "Casa", "Centro", "201278", cli1, c1);
-		Endereco e2 = new Endereco(null, "Rua sao paulo", "29", "Casa", "Centro", "202876", cli1, c2);
-
+		Endereco e3 = new Endereco(null, "Rua janeiro", "19", "Casa", "Roça", "212876", cli2, c1);
 
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
 
 		clienteRepository.saveAll(Arrays.asList(cli1,cli2));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2,e3));
