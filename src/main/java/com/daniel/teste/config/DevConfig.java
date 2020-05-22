@@ -22,7 +22,7 @@ public class DevConfig {
 
 	@Bean
 	public boolean iniciarDataBase() throws ParseException {
-		dba.iniciar();
+	//	dba.iniciar();
 		return true;
 	}
 

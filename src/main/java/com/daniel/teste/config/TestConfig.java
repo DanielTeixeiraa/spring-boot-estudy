@@ -25,7 +25,7 @@ public class TestConfig {
 		if (!"create".equals(strategy)) {
 			return false;
 		}
-		db.iniciar();
+	//	db.iniciar();
 		return true;
 	}
 	@Bean
