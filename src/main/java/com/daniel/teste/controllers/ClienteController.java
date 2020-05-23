@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daniel.teste.dto.ClienteDTO;
 import com.daniel.teste.dto.ClienteNewDTO;
+import com.daniel.teste.enums.Perfil;
+import com.daniel.teste.error.AuthorizationException;
 import com.daniel.teste.error.ResourceNotFoundException;
 import com.daniel.teste.models.Cliente;
 import com.daniel.teste.repositories.ClienteRepository;
+import com.daniel.teste.security.UserSS;
 import com.daniel.teste.services.ClienteService;
+import com.daniel.teste.services.UserService;
 
 @RestController
 @RequestMapping("/clientes")
@@ -49,6 +54,7 @@ public class ClienteController {
 	}
 	
 	@GetMapping(value = "/page")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<?> listarClientePage(  //PAGINAÇAO
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
@@ -62,6 +68,10 @@ public class ClienteController {
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> listaUma(@PathVariable("id") Integer id) {
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.HasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		verifyIfClienteExists(id);
 		Cliente obj = service.find(id);
 		return new ResponseEntity<>(obj,HttpStatus.OK);
@@ -75,6 +85,7 @@ public class ClienteController {
 	}
 	
 	@DeleteMapping(path="/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
 		verifyIfClienteExists(id);
 		service.delete(id);
