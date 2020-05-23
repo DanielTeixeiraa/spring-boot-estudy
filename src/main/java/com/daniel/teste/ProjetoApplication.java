@@ -134,6 +134,7 @@ public class ProjetoApplication implements CommandLineRunner { //USADO PARA COLO
 
 		Cliente cli1 = new Cliente(null, "Maria Silva", "dan@gmail.com", "333222999", TipoCliente.PESSOA_FISICA,pass.encode("123"));
 		Cliente cli2 = new Cliente(null, "Ana Silva", "dart@gmail.com", "444222999", TipoCliente.PESSOA_FISICA,pass.encode("123"));
+		cli2.setPerfil(Perfil.ADMIN);
 
 		cli1.getTelefones().addAll(Arrays.asList("22993909987"));
 		cli2.getTelefones().addAll(Arrays.asList("22993908887","22998987656"));
