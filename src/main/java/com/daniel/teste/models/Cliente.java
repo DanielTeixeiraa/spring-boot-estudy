@@ -23,9 +23,11 @@ import com.daniel.teste.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

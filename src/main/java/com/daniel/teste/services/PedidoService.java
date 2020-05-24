@@ -74,7 +74,7 @@ public class PedidoService {
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItens());
-		emailService.confirmationEmail(obj);
+		emailService.sendOrderConfirmationEmail(obj);
 		return obj;
 	}
 	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {

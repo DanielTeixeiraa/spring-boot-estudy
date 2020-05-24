@@ -35,13 +35,13 @@ import com.daniel.teste.repositories.PagamentoRepository;
 import com.daniel.teste.repositories.PedidoRepository;
 import com.daniel.teste.repositories.ProdutoRepository;
 import com.daniel.teste.services.EmailService;
-import com.daniel.teste.services.smtpEmailService;
+import com.daniel.teste.services.MockEmailService;
 
 @SpringBootApplication
 public class ProjetoApplication implements CommandLineRunner { //USADO PARA COLOCAR FUNÇOES NO MAIN
 	@Bean
 	public EmailService emailservice() {
-		return new smtpEmailService();
+		return new MockEmailService();
 	}
 
 	@Autowired
