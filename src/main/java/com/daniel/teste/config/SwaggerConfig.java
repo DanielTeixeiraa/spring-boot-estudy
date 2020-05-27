@@ -57,6 +57,7 @@ public class SwaggerConfig {
 	private ResponseMessage simpleMessage(int code, String msg) {
 		return new ResponseMessageBuilder().code(code).message(msg).build();
 		}
+	@SuppressWarnings("unused")
 	private ResponseMessage customMessage1() {
 		Map<String, Header> map = new HashMap<>();
 		map.put("location", new Header("location", "URI do novo recurso", new ModelRef("string")));

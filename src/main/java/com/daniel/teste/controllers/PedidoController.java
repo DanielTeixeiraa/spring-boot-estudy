@@ -1,11 +1,9 @@
 package com.daniel.teste.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.daniel.teste.error.ResourceNotFoundException;
 import com.daniel.teste.models.Pedido;
 import com.daniel.teste.services.PedidoService;
 

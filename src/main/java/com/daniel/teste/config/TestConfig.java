@@ -15,6 +15,7 @@ import com.daniel.teste.services.MockEmailService;
 @Profile("test")
 //CONFIGURAÇAO DA APLICAÇAO DE TEST
 public class TestConfig {
+	@SuppressWarnings("unused")
 	@Autowired
 	private DBservice db;
 	@Value("${spring.jpa.hibernate.ddl-auto}")
